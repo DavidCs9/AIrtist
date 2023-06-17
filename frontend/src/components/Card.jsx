@@ -12,10 +12,10 @@ const Card = ({ _id, name, prompt, photo }) => {
         alt={prompt}
       />
       <div className=' group-hover:flex flex-col max-h-[94.5%] hidden absolute bottom-0
-      left-0 right-0 p-4 m-2 rounded-md bg-gray-900'
+      left-0 right-0 p-4 m-2 rounded-md bg-gray-800/95 '
       >
-        <p className='text-white text-sm text-center'>{prompt}</p>
-        <div className='mt-5 flex justify-between items-center gap-2'>
+        <p className='text-white text-sm text-center border-b border-gray-400 pb-2'>{prompt}</p>
+        <div className='mt-2 flex justify-between items-center gap-2'>
           <div className='text-white text-sm text-center'>
             {name}
           </div>

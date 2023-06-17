@@ -75,21 +75,21 @@ const CreatePost = () => {
   }
 
   return (
-    <section className=' max-w-7xl mx-auto'>
+    <section className=' max-w-7xl mx-auto text-white'>
       <div>
-        <h1 className='font-bold text-[#222328] text-[32px]'>Create Post</h1>
-        <p className='mt-2 text-gray-800 text-[16px]'>
-          Create a image and share it with the world
+        <h1 className='font-bold  text-[32px]'>Crear post</h1>
+        <p className='mt-2  text-[16px] text-slate-300'>
+          Crea un post para compartir con la comunidad
         </p>
       </div>
 
-      <form className='mt-16 max-w-3xl' onSubmit={handleSubmit}>
+      <form className='mt-4 max-w-3xl' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-5'>
           <FormField
-            labelName='Your Name'
+            labelName='Tu nombre'
             type='text'
             name='name'
-            placeholder='John Doe'
+            placeholder='David Castro'
             value={form.name}
             handleChange={handleChange}
           />
@@ -97,14 +97,14 @@ const CreatePost = () => {
             labelName='Prompt'
             type='text'
             name='prompt'
-            placeholder='A cute cat'
+            placeholder='A cute cat, digital art'
             value={form.prompt}
             handleChange={handleChange}
             isSurpriseMe
             handleSurpriseMe={handleSurpriseMe}
           />
           <div className='p-3 relative bg-gray-50 border border-gray-300 rounded-lg
-          text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 w-64 h-64
+           text-sm focus:ring-blue-500 focus:border-blue-500 w-64 h-64
           flex justify-center items-center'
           >
             {form.photo
@@ -127,21 +127,21 @@ const CreatePost = () => {
           <button
             type='button'
             onClick={generateImage}
-            className='text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'
+            className='create text-white font-medium rounded-md text-sm w-full sm:w-[200px] px-5 py-2.5 text-center'
           >
-            {generatingImg ? 'Generating...' : 'Generate'}
+            {generatingImg ? 'Generando...' : 'Generar'}
           </button>
         </div>
 
         <div className='mt-10'>
-          <p className='text-[#666e75] text-[14px]'>
-            Once you have created the image you want, share it with the world
+          <p className=' text-[14px] text-slate-300'>
+            Una vez creada la imagen que te gusta, compartela con la comunidad
           </p>
           <button
             type='submit'
-            className='mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'
+            className='mt-3 text-white bg-emerald-700 font-medium rounded-md text-sm w-full sm:w-[200px] px-5 py-2.5 text-center'
           >
-            {loading ? 'Sharing...' : 'Share with the world'}
+            {loading ? 'Compartiendo...' : 'Compartir'}
           </button>
         </div>
 

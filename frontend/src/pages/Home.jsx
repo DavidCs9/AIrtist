@@ -7,7 +7,7 @@ const RenderCards = ({ data, title }) => {
     return data.map((post) => <Card key={post._id} {...post} />)
   }
   return (
-    <h2 className='mt-5 font-bold text-[#222328] text-xl uppercase'>{title}</h2>
+    <h2 className='mt-5 font-bold  text-xl uppercase text-red-500'>{title}</h2>
   )
 }
 
@@ -56,20 +56,15 @@ const Home = () => {
   }
 
   return (
-    <section className=' max-w-7xl mx-auto'>
-      <div>
-        <h1 className='font-bold text-[#222328] text-[32px]'>Latest Posts</h1>
-        <p className='mt-2 text-gray-800 text-[16px]'>
-          Imagenes generadas por la comunidad
-        </p>
-      </div>
+    <section className=' max-w-7xl mx-auto text-white'>
+      <h1 className='font-bold  text-[32px]'>Imagenes de la comunidad</h1>
 
-      <div className='mt-16'>
+      <div className='mt-8'>
         <FormField
-          labelName='Search posts'
+          labelName='Buscar posts'
           type='text'
           name='text'
-          placeholder='Search posts'
+          placeholder='Ej. Cat'
           value={searchText}
           handleChange={handleSearch}
         />
@@ -81,15 +76,15 @@ const Home = () => {
           : (
             <>
               {searchText && (
-                <h2 className='font-medium'>Showing results for <span className='text-[#222328]'>{searchText}</span></h2>
+                <h2 className='font-medium text-[#D8D8D8]'>Mostrando resultados para: <span className=' text-red-500'>{searchText}</span></h2>
               )}
-              <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-3'>
+              <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-3 mt-5'>
                 {searchText
                   ? (
-                    <RenderCards data={searchedResults} title='No search results found' />
+                    <RenderCards data={searchedResults} title='No se encontraron resultados con esta busqueda' />
                     )
                   : (
-                    <RenderCards data={allPosts} title='No posts found' />
+                    <RenderCards data={allPosts} title='No se encontraron posts' />
                     )}
               </div>
             </>)}

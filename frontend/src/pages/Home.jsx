@@ -90,7 +90,7 @@ const Home = () => {
 
       <div className='mt-10'>
         {loading
-          ? (<div><Loader /></div>)
+          ? (<div className='flex justify-center align-middle'><Loader /></div>)
           : (
             <>
               {searchText && (

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 import { preview } from '../assets'
 import { getRandomPrompt } from '../utils'
@@ -124,25 +125,29 @@ const CreatePost = () => {
         </div>
 
         <div className='mt-5 flex gap-5'>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             type='button'
             onClick={generateImage}
             className='create text-white font-medium rounded-md text-sm w-full sm:w-[200px] px-5 py-2.5 text-center'
           >
             {generatingImg ? 'Generando...' : 'Generar'}
-          </button>
+          </motion.button>
         </div>
 
         <div className='mt-10'>
           <p className=' text-[14px] text-slate-300'>
             Una vez creada la imagen que te gusta, compartela con la comunidad
           </p>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             type='submit'
             className='mt-3 text-white bg-emerald-700 font-medium rounded-md text-sm w-full sm:w-[200px] px-5 py-2.5 text-center'
           >
             {loading ? 'Compartiendo...' : 'Compartir'}
-          </button>
+          </motion.button>
         </div>
 
       </form>

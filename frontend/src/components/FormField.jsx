@@ -1,8 +1,11 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 
 const FormField = ({ name, labelName, type, value, handleChange, isSurpriseMe, handleSurpriseMe, placeholder }) => {
   return (
-    <div>
+    <motion.div
+      whileTap={{ scale: 0.99 }}
+    >
       <div className='flex items-center gap-2 mb-2'>
         <label
           htmlFor={name}
@@ -11,13 +14,14 @@ const FormField = ({ name, labelName, type, value, handleChange, isSurpriseMe, h
           {labelName}
         </label>
         {isSurpriseMe && (
-          <button
+          <motion.button
             type='button'
             onClick={handleSurpriseMe}
+            whileHover={{ scale: 1.04 }}
             className='font-semibold text-xs  py-1 px-2 rounded-md bg-purple-900 '
           >
             Sorprendeme
-          </button>
+          </motion.button>
         )}
       </div>
       <input
@@ -30,7 +34,7 @@ const FormField = ({ name, labelName, type, value, handleChange, isSurpriseMe, h
         required
         className=' p-2 border-2 w-full rounded-md  outline-none text-black font-medium'
       />
-    </div>
+    </motion.div>
   )
 }
 

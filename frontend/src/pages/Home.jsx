@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { Loader, Card, FormField } from '../components'
 
 const RenderCards = ({ data, title }) => {
   if (data?.length > 0) {
-    return data.map((post) => <Card key={post._id} {...post} />)
+    return (
+      <AnimatePresence>
+        {data.map((post, index) => (
+          <motion.ul
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            exit={{ x: -1000, opacity: 0, transition: { duration: 0.2 } }}
+            key={post._id}
+          >
+            <Card {...post} />
+          </motion.ul>
+        ))}
+      </AnimatePresence>
+    )
   }
   return (
     <h2 className='mt-5 font-bold  text-xl uppercase text-red-500'>{title}</h2>
@@ -59,7 +75,9 @@ const Home = () => {
     <section className=' max-w-7xl mx-auto text-white'>
       <h1 className='font-bold  text-[32px]'>Imagenes de la comunidad</h1>
 
-      <div className='mt-8'>
+      <div
+        className='mt-8'
+      >
         <FormField
           labelName='Buscar posts'
           type='text'
@@ -78,7 +96,7 @@ const Home = () => {
               {searchText && (
                 <h2 className='font-medium text-[#D8D8D8]'>Mostrando resultados para: <span className=' text-red-500'>{searchText}</span></h2>
               )}
-              <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-3 mt-5'>
+              <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3 mt-5'>
                 {searchText
                   ? (
                     <RenderCards data={searchedResults} title='No se encontraron resultados con esta busqueda' />

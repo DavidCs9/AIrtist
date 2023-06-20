@@ -1,10 +1,6 @@
 import mongoose from 'mongoose'
 
 const Post = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
   prompt: {
     type: String,
     required: true
@@ -12,7 +8,12 @@ const Post = mongoose.Schema({
   photo: {
     type: String,
     required: true
+  },
+  userid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }
+
 })
 
 const PostSchema = mongoose.model('Post', Post)

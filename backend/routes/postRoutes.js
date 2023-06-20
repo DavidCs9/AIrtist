@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv'
 import { v2 as cloudinary } from 'cloudinary'
 
 import Post from '../mongodb/models/post.js'
+import User from '../mongodb/models/user.js'
 
 dotenv.config()
 
@@ -17,9 +18,10 @@ cloudinary.config({
 // Get all posts
 router.route('/').get(async (req, res) => {
   try {
-    const posts = await Post.find()
+    const posts = await Post.find().populate('userid', { username: 1 })
     res.status(200).json({ success: true, data: posts })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, message: error })
   }
 })
@@ -27,19 +29,25 @@ router.route('/').get(async (req, res) => {
 // Create a post
 router.route('/').post(async (req, res) => {
   try {
-    const { name, prompt, photo } = req.body
-    const photoUrl = await cloudinary.uploader.upload(photo)
+    const { prompt, photo, userid } = req.body
 
+    const user = await User.findById(userid)
+
+    const photoUrl = await cloudinary.uploader.upload(photo)
     const photoWebp = photoUrl.url.replace(/\.png$/, '.webp')
 
     const newPost = await Post.create({
-      name,
       prompt,
-      photo: photoWebp
+      photo: photoWebp,
+      userid: user._id
     })
+
+    user.posts = user.posts.concat(newPost._id)
+    await user.save()
 
     res.status(201).json({ success: true, data: newPost })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, message: error })
   }
 })

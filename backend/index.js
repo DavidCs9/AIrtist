@@ -6,6 +6,7 @@ import connectDB from './mongodb/connect.js'
 import postRoutes from './routes/postRoutes.js'
 import dalleRoutes from './routes/dalleRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import loginRoutes from './routes/loginRoutes.js'
 
 dotenv.config()
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/post', postRoutes)
 app.use('/api/v1/dalle', dalleRoutes)
 app.use('/api/v1/users', userRoutes)
+app.use('/api/v1/login', loginRoutes)
 
 const startServer = async () => {
   try {

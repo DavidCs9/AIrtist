@@ -1,6 +1,7 @@
 import express from 'express'
 import * as dotenv from 'dotenv'
 import { v2 as cloudinary } from 'cloudinary'
+import jsw from 'jsonwebtoken'
 
 import Post from '../mongodb/models/post.js'
 import User from '../mongodb/models/user.js'
@@ -29,12 +30,25 @@ router.route('/').get(async (req, res) => {
 // Create a post
 router.route('/').post(async (req, res) => {
   try {
-    const { prompt, photo, userid } = req.body
-
-    const user = await User.findById(userid)
+    const autorization = req.headers.authorization
+    const { prompt, photo } = req.body
 
     const photoUrl = await cloudinary.uploader.upload(photo)
     const photoWebp = photoUrl.url.replace(/\.png$/, '.webp')
+
+    let token = null
+
+    if (autorization && autorization.toLowerCase().startsWith('bearer')) {
+      token = autorization.substring(7)
+    }
+
+    const decodedToken = jsw.verify(token, process.env.JWT_SECRET)
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'Invalid token' })
+    }
+
+    const { id: userid } = decodedToken
+    const user = await User.findById(userid)
 
     const newPost = await Post.create({
       prompt,
@@ -48,7 +62,7 @@ router.route('/').post(async (req, res) => {
     res.status(201).json({ success: true, data: newPost })
   } catch (error) {
     console.log(error)
-    res.status(500).json({ success: false, message: error })
+    res.status(500).json({ success: false, error: error.message })
   }
 })
 

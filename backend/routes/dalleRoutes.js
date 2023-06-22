@@ -1,12 +1,13 @@
 import express from 'express'
 import * as dotenv from 'dotenv'
 import { Configuration, OpenAIApi } from 'openai'
+import jsw from 'jsonwebtoken'
 
 dotenv.config()
 
 const router = express.Router()
 
-const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
+const configuration = new Configuration({ apiKey: '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' })
 
 const openai = new OpenAIApi(configuration)
 
@@ -16,7 +17,25 @@ router.route('/').get((req, res) => {
 
 router.route('/').post(async (req, res) => {
   try {
+    const autorization = req.headers.authorization
     const { prompt } = req.body
+
+    let token = null
+
+    if (autorization && autorization.toLowerCase().startsWith('bearer')) {
+      token = autorization.substring(7)
+    }
+
+    let decodedToken = {}
+    try {
+      decodedToken = jsw.verify(token, process.env.JWT_SECRET)
+    } catch (error) {
+      console.log(error)
+    }
+
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'Invalid token' })
+    }
 
     const aiResponse = await openai.createImage({
       prompt,

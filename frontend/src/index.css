@@ -25,3 +25,8 @@
 .create {
   background: linear-gradient(90deg, rgba(96, 0, 71, 1) 0%, rgba(130, 78, 168, 1) 35%, rgba(66, 178, 228, 1) 100%);
 }
+
+/* when hover change the linear gradient */
+.create:hover {
+  opacity: 0.7;
+}

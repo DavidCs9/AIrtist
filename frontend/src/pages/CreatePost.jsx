@@ -1,12 +1,24 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { preview } from '../assets'
 import { getRandomPrompt } from '../utils'
 import { FormField, Loader } from '../components'
+import { login } from '../services/login'
 
 const CreatePost = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, [])
+
   const navigate = useNavigate()
   const [form, setForm] = useState({
     name: '',
@@ -23,10 +35,12 @@ const CreatePost = () => {
       setLoading(true)
 
       try {
-        const response = await fetch('https://airstist-backend.onrender.com/api/v1/post', {
+        const { token } = user
+        const response = await fetch('http://localhost:8080/api/v1/post', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
           },
           body: JSON.stringify(form)
         })
@@ -56,10 +70,12 @@ const CreatePost = () => {
     if (form.prompt) {
       try {
         setGeneratingImg(true)
-        const response = await fetch('https://airstist-backend.onrender.com/api/v1/dalle', {
+        const { token } = user
+        const response = await fetch('http://localhost:8080/api/v1/dalle', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
           },
           body: JSON.stringify({ prompt: form.prompt })
         })
@@ -75,83 +91,144 @@ const CreatePost = () => {
     }
   }
 
-  return (
-    <section className=' max-w-7xl mx-auto text-white'>
-      <div>
-        <h1 className='font-bold  text-[32px]'>Crear post</h1>
-        <p className='mt-2  text-[16px] text-slate-300'>
-          Crea un post para compartir con la comunidad
-        </p>
-      </div>
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+      const user = await login({ username, password })
+      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      setUser(user)
+      setPassword('')
+      setUsername('')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-      <form className='mt-4 max-w-3xl' onSubmit={handleSubmit}>
-        <div className='flex flex-col gap-5'>
-          <FormField
-            labelName='Tu nombre'
+  const renderLoginForm = () => {
+    return (
+      <section className='h-[850px] mb-4 bg-black bg-opacity-80 flex justify-center align-middle'>
+        <form onSubmit={handleLogin} className='flex flex-col gap-3 w-60'>
+          <h1 className='text-white text-[32px]'>Login</h1>
+          <p className='text-white text-[16px]'>Login to your account</p>
+          <input
             type='text'
-            name='name'
-            placeholder='David Castro'
-            value={form.name}
-            handleChange={handleChange}
+            value={username}
+            name='username'
+            placeholder='Username'
+            onChange={(e) => setUsername(e.target.value)}
           />
-          <FormField
-            labelName='Prompt'
-            type='text'
-            name='prompt'
-            placeholder='A cute cat, digital art'
-            value={form.prompt}
-            handleChange={handleChange}
-            isSurpriseMe
-            handleSurpriseMe={handleSurpriseMe}
+          <input
+            type='password'
+            value={password}
+            name='password'
+            placeholder='password'
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <div className='p-3 relative bg-gray-50 border border-gray-300 rounded-lg
-           text-sm focus:ring-blue-500 focus:border-blue-500 w-64 h-64
-          flex justify-center items-center'
-          >
-            {form.photo
-              ? (
-                <img src={form.photo} alt={form.prompt} className='w-full h-full object-contain' />
-                )
-              : (
-                <img src={preview} alt='preview' className='w-9/12 h-9/12 object-contain opacity-40' />
-                )}
+          <button className='bg-green-600 text-white mt-4 py-2 px-4 rounded'>
+            Login
+          </button>
 
-            {generatingImg && (
-              <div className='absolute inset-0 z-0 flex justify-center items-center rounded-lg bg-black/60'>
-                <Loader />
-              </div>
-            )}
-          </div>
-        </div>
+        </form>
+      </section>
+    )
+  }
 
-        <div className='mt-5 flex gap-5'>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            type='button'
-            onClick={generateImage}
-            className='create text-white font-medium rounded-md text-sm w-full sm:w-[200px] px-5 py-2.5 text-center'
-          >
-            {generatingImg ? 'Generando...' : 'Generar'}
-          </motion.button>
-        </div>
-
-        <div className='mt-10'>
-          <p className=' text-[14px] text-slate-300'>
-            Una vez creada la imagen que te gusta, compartela con la comunidad
+  const renderPostForm = () => {
+    return (
+      <section className=' max-w-7xl mx-auto text-white'>
+        <div>
+          <h1 className='font-bold  text-[32px]'>Crear post</h1>
+          <p className='mt-2  text-[16px] text-slate-300'>
+            Crea un post para compartir con la comunidad
           </p>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            type='submit'
-            className='mt-3 text-white bg-emerald-700 font-medium rounded-md text-sm w-full sm:w-[200px] px-5 py-2.5 text-center'
-          >
-            {loading ? 'Compartiendo...' : 'Compartir'}
-          </motion.button>
         </div>
 
-      </form>
-    </section>
+        <form className='mt-4 max-w-3xl' onSubmit={handleSubmit}>
+          <div className='flex flex-col gap-5'>
+            <FormField
+              labelName='Tu nombre'
+              type='text'
+              name='name'
+              placeholder='David Castro'
+              value={form.name}
+              handleChange={handleChange}
+            />
+            <FormField
+              labelName='Prompt'
+              type='text'
+              name='prompt'
+              placeholder='A cute cat, digital art'
+              value={form.prompt}
+              handleChange={handleChange}
+              isSurpriseMe
+              handleSurpriseMe={handleSurpriseMe}
+            />
+            <div className='p-3 relative bg-gray-50 border border-gray-300 rounded-lg
+   text-sm focus:ring-blue-500 focus:border-blue-500 w-64 h-64
+  flex justify-center items-center'
+            >
+              {form.photo
+                ? (
+                  <img src={form.photo} alt={form.prompt} className='w-full h-full object-contain' />
+                  )
+                : (
+                  <img src={preview} alt='preview' className='w-9/12 h-9/12 object-contain opacity-40' />
+                  )}
+
+              {generatingImg && (
+                <div className='absolute inset-0 z-0 flex justify-center items-center rounded-lg bg-black/60'>
+                  <Loader />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className='mt-5 flex gap-5'>
+            <button
+              type='button'
+              onClick={generateImage}
+              className='create text-white font-medium rounded-md text-sm w-full sm:w-[200px] px-5 py-2.5 text-center'
+            >
+              {generatingImg ? 'Generando...' : 'Generar'}
+            </button>
+          </div>
+
+          <div className='mt-10'>
+            <p className=' text-[14px] text-slate-300'>
+              Una vez creada la imagen que te gusta, compartela con la comunidad
+            </p>
+            <button
+              type='submit'
+              className='mt-3 text-white bg-emerald-700 font-medium rounded-md text-sm w-full sm:w-[200px] px-5 py-2.5 text-center hover:bg-opacity-60'
+            >
+              {loading ? 'Compartiendo...' : 'Compartir'}
+            </button>
+          </div>
+
+        </form>
+      </section>
+    )
+  }
+
+  const renderUserAuth = () => {
+    return (
+      <section className='flex justify-center items-center'>
+        <div>
+          <Link to='/register'>
+            Registrarse
+          </Link>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <>
+      {user
+        ? renderPostForm()
+        : renderUserAuth()}
+
+    </>
   )
 }
 

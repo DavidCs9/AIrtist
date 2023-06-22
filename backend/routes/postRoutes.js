@@ -41,8 +41,13 @@ router.route('/').post(async (req, res) => {
     if (autorization && autorization.toLowerCase().startsWith('bearer')) {
       token = autorization.substring(7)
     }
+    let decodedToken = {}
+    try {
+      decodedToken = jsw.verify(token, process.env.JWT_SECRET)
+    } catch (error) {
+      console.log(error)
+    }
 
-    const decodedToken = jsw.verify(token, process.env.JWT_SECRET)
     if (!token || !decodedToken.id) {
       return res.status(401).json({ error: 'Invalid token' })
     }

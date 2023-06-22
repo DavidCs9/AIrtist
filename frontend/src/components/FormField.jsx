@@ -14,14 +14,13 @@ const FormField = ({ name, labelName, type, value, handleChange, isSurpriseMe, h
           {labelName}
         </label>
         {isSurpriseMe && (
-          <motion.button
+          <button
             type='button'
             onClick={handleSurpriseMe}
-            whileHover={{ scale: 1.04 }}
-            className='font-semibold text-xs  py-1 px-2 rounded-md bg-purple-900 '
+            className='font-semibold text-xs  py-1 px-2 rounded-md bg-purple-900 hover:bg-opacity-60 '
           >
             Sorprendeme
-          </motion.button>
+          </button>
         )}
       </div>
       <input

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { Loader, Card, FormField } from '../components'
+import Navbar from '../components/Navbar'
 
 const RenderCards = ({ data, title }) => {
   if (data?.length > 0) {
@@ -72,42 +73,46 @@ const Home = () => {
   }
 
   return (
-    <section className=' max-w-7xl mx-auto text-white'>
-      <h1 className='font-bold  text-[32px]'>Imagenes de la comunidad</h1>
+    <>
+      <Navbar />
+      <section className=' max-w-7xl mx-auto text-white mt-4 p-6'>
+        <h1 className='font-bold  text-[32px]'>Imagenes de la comunidad</h1>
 
-      <div
-        className='mt-8'
-      >
-        <FormField
-          labelName='Buscar posts'
-          type='text'
-          name='text'
-          placeholder='Ej. Cat'
-          value={searchText}
-          handleChange={handleSearch}
-        />
-      </div>
+        <div
+          className='mt-8'
+        >
+          <FormField
+            labelName='Buscar posts'
+            type='text'
+            name='text'
+            placeholder='Ej. Cat'
+            value={searchText}
+            handleChange={handleSearch}
+          />
+        </div>
 
-      <div className='mt-10'>
-        {loading
-          ? (<div className='flex justify-center align-middle'><Loader /></div>)
-          : (
-            <>
-              {searchText && (
-                <h2 className='font-medium text-[#D8D8D8]'>Mostrando resultados para: <span className=' text-red-500'>{searchText}</span></h2>
-              )}
-              <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3 mt-5'>
-                {searchText
-                  ? (
-                    <RenderCards data={searchedResults} title='No se encontraron resultados con esta busqueda' />
-                    )
-                  : (
-                    <RenderCards data={allPosts} title='No se encontraron posts' />
-                    )}
-              </div>
-            </>)}
-      </div>
-    </section>
+        <div className='mt-10'>
+          {loading
+            ? (<div className='flex justify-center align-middle'><Loader /></div>)
+            : (
+              <>
+                {searchText && (
+                  <h2 className='font-medium text-[#D8D8D8]'>Mostrando resultados para: <span className=' text-red-500'>{searchText}</span></h2>
+                )}
+                <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3 mt-5'>
+                  {searchText
+                    ? (
+                      <RenderCards data={searchedResults} title='No se encontraron resultados con esta busqueda' />
+                      )
+                    : (
+                      <RenderCards data={allPosts} title='No se encontraron posts' />
+                      )}
+                </div>
+              </>)}
+        </div>
+      </section>
+    </>
+
   )
 }
 

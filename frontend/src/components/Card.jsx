@@ -2,7 +2,8 @@ import React from 'react'
 import { download } from '../assets'
 import { downloadImage } from '../utils'
 
-const Card = ({ _id, name, prompt, photo }) => {
+const Card = ({ _id, user, prompt, photo }) => {
+  // console.log(username)
   return (
     <div id='card' className='rounded-xl relative group'>
       <img
@@ -16,7 +17,7 @@ const Card = ({ _id, name, prompt, photo }) => {
         <p className='text-white text-sm text-center border-b border-gray-400 pb-2'>{prompt}</p>
         <div className='mt-2 flex justify-between items-center gap-2'>
           <div className='text-white text-sm text-center'>
-            {name}
+            @{user}
           </div>
           <button
             type='button'

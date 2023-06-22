@@ -54,11 +54,12 @@ router.route('/').post(async (req, res) => {
 
     const { id: userid } = decodedToken
     const user = await User.findById(userid)
+    console.log(user.username)
 
     const newPost = await Post.create({
       prompt,
       photo: photoWebp,
-      userid: user._id
+      user: user.username
     })
 
     user.posts = user.posts.concat(newPost._id)

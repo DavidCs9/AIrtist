@@ -93,7 +93,7 @@ const CreatePost = () => {
     const { username } = user
 
     return (
-      <>
+      <main className=' w-full bg-[#252A34] min-h-screen '>
         <Navbar />
         <section className=' mx-auto text-white mt-4 sm:mt-3 p-6 sm:mx-20 '>
           <div>
@@ -162,14 +162,13 @@ const CreatePost = () => {
 
           </form>
         </section>
-      </>
-
+      </main>
     )
   }
 
   const renderUserAuth = () => {
     return (
-      <>
+      <main className=' w-full bg-[#252A34] min-h-screen '>
         <Navbar />
         <section className='text-white bg-gray-900 rounded-xl p-10 mt-24 flex flex-col w-[350px] gap-4 sm:w-[700px] mx-auto '>
           <h1 className='text-2xl font-bold text-center'>
@@ -196,8 +195,7 @@ const CreatePost = () => {
             </Link>
           </div>
         </section>
-      </>
-
+      </main>
     )
   }
 

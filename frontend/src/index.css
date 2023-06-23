@@ -30,3 +30,7 @@
 .create:hover {
   opacity: 0.7;
 }
+
+body {
+  background-color: #252A34;
+}

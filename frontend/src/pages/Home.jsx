@@ -73,7 +73,7 @@ const Home = () => {
   }
 
   return (
-    <>
+    <main className=' w-full bg-[#252A34] min-h-screen '>
       <Navbar />
       <section className=' max-w-7xl mx-auto text-white mt-4 p-6'>
         <h1 className='font-bold  text-[32px]'>Imagenes de la comunidad</h1>
@@ -111,8 +111,8 @@ const Home = () => {
               </>)}
         </div>
       </section>
-    </>
 
+    </main>
   )
 }
 

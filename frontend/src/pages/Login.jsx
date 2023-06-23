@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { login } from '../services/login'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 const Login = () => {
   const [username, setUsername] = useState('')
@@ -83,11 +83,11 @@ const Login = () => {
               </button>
               <p className='text-sm font-light text-gray-400'>
                 No tienes una cuenta todavia?
-                <a
-                  href='/register'
+                <Link
+                  to='/register'
                   className='font-medium  hover:underline text-cyan-300'
                 > Registrate
-                </a>
+                </Link>
               </p>
             </form>
           </div>

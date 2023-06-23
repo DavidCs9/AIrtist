@@ -3,7 +3,6 @@ import { download } from '../assets'
 import { downloadImage } from '../utils'
 
 const Card = ({ _id, user, prompt, photo }) => {
-  // console.log(username)
   return (
     <div id='card' className='rounded-xl relative group'>
       <img

@@ -21,7 +21,6 @@ router.route('/').post(async (req, res) => {
     }
 
     const userForToken = {
-      id: user._id,
       username: user.username
     }
 

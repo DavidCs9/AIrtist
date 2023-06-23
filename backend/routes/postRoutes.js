@@ -54,7 +54,6 @@ router.route('/').post(async (req, res) => {
 
     const { id: userid } = decodedToken
     const user = await User.findById(userid)
-    console.log(user.username)
 
     const newPost = await Post.create({
       prompt,

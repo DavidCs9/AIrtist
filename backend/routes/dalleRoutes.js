@@ -33,7 +33,7 @@ router.route('/').post(async (req, res) => {
       console.log(error)
     }
 
-    if (!token || !decodedToken.id) {
+    if (!token || !decodedToken.username) {
       return res.status(401).json({ error: 'Invalid token' })
     }
 

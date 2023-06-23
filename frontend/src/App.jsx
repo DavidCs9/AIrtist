@@ -5,7 +5,7 @@ import { Home, CreatePost, Register, Login } from './pages'
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='https://www.airtist.site/'>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/create-post' element={<CreatePost />} />

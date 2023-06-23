@@ -41,6 +41,7 @@ router.route('/').post(async (req, res) => {
     if (autorization && autorization.toLowerCase().startsWith('bearer')) {
       token = autorization.substring(7)
     }
+
     let decodedToken = {}
     try {
       decodedToken = jsw.verify(token, process.env.JWT_SECRET)
@@ -48,21 +49,32 @@ router.route('/').post(async (req, res) => {
       console.log(error)
     }
 
-    if (!token || !decodedToken.id) {
+    if (!token || !decodedToken.username) {
       return res.status(401).json({ error: 'Invalid token' })
     }
 
-    const { id: userid } = decodedToken
-    const user = await User.findById(userid)
+    const { username } = decodedToken
+    const user = await User.find({ username })
+
+    console.log(user)
 
     const newPost = await Post.create({
       prompt,
       photo: photoWebp,
-      user: user.username
+      user: username
     })
 
-    user.posts = user.posts.concat(newPost._id)
+    /*
+    console.log(newPost)
+    console.log(user.posts)
+    const array = []
+    array.push(newPost._id)
+    console.log(array)
+
+    user.posts = array
+    console.log('antes de save')
     await user.save()
+    */
 
     res.status(201).json({ success: true, data: newPost })
   } catch (error) {

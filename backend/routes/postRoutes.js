@@ -64,18 +64,6 @@ router.route('/').post(async (req, res) => {
       user: username
     })
 
-    /*
-    console.log(newPost)
-    console.log(user.posts)
-    const array = []
-    array.push(newPost._id)
-    console.log(array)
-
-    user.posts = array
-    console.log('antes de save')
-    await user.save()
-    */
-
     res.status(201).json({ success: true, data: newPost })
   } catch (error) {
     console.log(error)

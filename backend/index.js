@@ -7,6 +7,7 @@ import postRoutes from './routes/postRoutes.js'
 import dalleRoutes from './routes/dalleRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import loginRoutes from './routes/loginRoutes.js'
+import dashboardRoutes from './routes/dashboardRoutes.js'
 
 dotenv.config()
 
@@ -22,6 +23,7 @@ app.use('/api/v1/post', postRoutes)
 app.use('/api/v1/dalle', dalleRoutes)
 app.use('/api/v1/users', userRoutes)
 app.use('/api/v1/login', loginRoutes)
+app.use('/api/v1/dashboard', dashboardRoutes)
 
 const startServer = async () => {
   try {

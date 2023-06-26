@@ -99,7 +99,7 @@ const Home = () => {
                 {searchText && (
                   <h2 className='font-medium text-[#D8D8D8]'>Mostrando resultados para: <span className=' text-red-500'>{searchText}</span></h2>
                 )}
-                <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3 mt-5'>
+                <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-6 mt-5'>
                   {searchText
                     ? (
                       <RenderCards data={searchedResults} title='No se encontraron resultados con esta busqueda' />
@@ -111,7 +111,6 @@ const Home = () => {
               </>)}
         </div>
       </section>
-
     </main>
   )
 }

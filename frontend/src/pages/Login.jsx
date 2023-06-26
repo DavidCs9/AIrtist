@@ -53,7 +53,7 @@ const Login = () => {
                   />
                 </div>
                 <div>
-                  <label for='password' className='block mb-2 text-sm font-medium  text-white'>Contraseña</label>
+                  <label htmlFor='password' className='block mb-2 text-sm font-medium  text-white'>Contraseña</label>
                   <input
                     type='password' name='password' id='password' placeholder='••••••••' value={password}
                     className=' border  sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600
@@ -73,7 +73,7 @@ const Login = () => {
                       />
                     </div>
                     <div className='ml-3 text-sm'>
-                      <label for='remember' className='text-gray-300'>Recuerdame</label>
+                      <label htmlFor='remember' className='text-gray-300'>Recuerdame</label>
                     </div>
                   </div>
                   <Link to='#' className='text-sm font-medium hover:underline text-cyan-300 '>Olvidaste la contraseña?</Link>

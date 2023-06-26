@@ -26,11 +26,28 @@ router.route('/').get(async (req, res) => {
 
   const { username } = decodedToken
   const posts = await Post.find({ user: username })
-  res.status(200).json({ success: true, posts })
+  res.status(200).json({ success: true, data: posts })
 })
 
-router.route('/').post(async (req, res) => {
+router.route('/').delete(async (req, res) => {
   const { _id } = req.body
+  const autorization = req.headers.authorization
+  let token = null
+
+  if (autorization && autorization.toLowerCase().startsWith('bearer')) {
+    token = autorization.substring(7)
+  }
+
+  let decodedToken = {}
+  try {
+    decodedToken = jsw.verify(token, process.env.JWT_SECRET)
+  } catch (error) {
+    console.log(error)
+  }
+
+  if (!token || !decodedToken.username) {
+    return res.status(401).json({ error: 'Invalid token' })
+  }
 
   try {
     await Post.findByIdAndDelete(_id)

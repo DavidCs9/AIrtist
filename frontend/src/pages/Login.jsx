@@ -6,6 +6,9 @@ import Navbar from '../components/Navbar'
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [seePassword, setSeePassword] = useState('password')
+  const [passwordHideBtn, setpasswordHideBtn] = useState('/seepasword.svg')
+
   const navigate = useNavigate()
 
   const handleBadLogin = () => {
@@ -25,6 +28,17 @@ const Login = () => {
       console.log(error)
     }
   }
+
+  const handleSeePassword = () => {
+    if (seePassword === 'password') {
+      setSeePassword('text')
+      setpasswordHideBtn('/notseepasword.svg')
+    } else {
+      setSeePassword('password')
+      setpasswordHideBtn('/seepasword.svg')
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -54,12 +68,18 @@ const Login = () => {
                 </div>
                 <div>
                   <label htmlFor='password' className='block mb-2 text-sm font-medium  text-white'>Contraseña</label>
-                  <input
-                    type='password' name='password' id='password' placeholder='••••••••' value={password}
-                    className=' border  sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600
-                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <div className=' border  sm:text-sm rounded-lg w-full pr-3 bg-gray-700 border-gray-600
+                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 flex'
+                  >
+                    <input
+                      type={seePassword} name='password' id='password' placeholder='••••••••' value={password}
+                      className=' sm:text-sm rounded-lg focus:outline-none w-full p-2.5 bg-gray-700 '
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button onClick={handleSeePassword}>
+                      <img src={passwordHideBtn} />
+                    </button>
+                  </div>
                 </div>
                 <div className='flex items-center justify-between'>
                   <div className='flex items-start'>

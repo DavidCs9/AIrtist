@@ -76,7 +76,7 @@ const Login = () => {
                       className=' sm:text-sm rounded-lg focus:outline-none w-full p-2.5 bg-gray-700 '
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button onClick={handleSeePassword}>
+                    <button onClick={handleSeePassword} type='button'>
                       <img src={passwordHideBtn} />
                     </button>
                   </div>
